@@ -286,15 +286,15 @@ Each directory contains:
 #### Before Fix (Original Analysis)
 | Version | Buffer Size | FIFO Size | Flip-Flops | RAMs | Registers | BRAM Status |
 |---------|-------------|-----------|------------|------|-----------|-------------|
-| **HDL_v1** | 4096 | 2 | 916 | 2×4096×16-bit | 123 | ✅ **SUCCESS** |
-| **HDL_v2** | 2048 | 16 | 66,302 | 0 | 4,195 | ❌ **FAILED** |
-| **HDL_v3** | 2048 | 16 | 66,302 | 0 | 4,195 | ❌ **FAILED** |
+| **HDL_v1** | 512 | 2 | 916 | 2×512×16-bit | 123 | ✅ **SUCCESS** |
+| **HDL_v2** | 2048 | 16 | 22,302 | 0 | 4,195 | ❌ **FAILED** |
+| **HDL_v3** | 2048 | 16 | 22,302 | 0 | 4,195 | ❌ **FAILED** |
 | **HDL_v4** | 512 | 2 | 897 | 2×512×16-bit | 119 | ✅ **SUCCESS** |
 
 #### After Fix (Current Status)
 | Version | Buffer Size | FIFO Size | Flip-Flops | RAMs | Registers | BRAM Status |
 |---------|-------------|-----------|------------|------|-----------|-------------|
-| **HDL_v1** | 4096 | 2 | 916 | 2×4096×16-bit | 123 | ✅ **SUCCESS** |
+| **HDL_v1** | 512 | 2 | 916 | 2×512×16-bit | 123 | ✅ **SUCCESS** |
 | **HDL_v2** | 2048 | 2 | 914 | 2×2048×16-bit | 121 | ✅ **SUCCESS** |
 | **HDL_v3** | 2048 | 2 | 914 | 2×2048×16-bit | 121 | ✅ **SUCCESS** |
 | **HDL_v4** | 512 | 2 | 897 | 2×512×16-bit | 119 | ✅ **SUCCESS** |

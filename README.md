@@ -54,10 +54,10 @@ This repository demonstrates a critical design constraint in MATLAB HDL Coder: *
    ```
 
 3. **Test installation**:
-   ```matlab
-   % Run a quick test
+   ```bash
+   % Navigate to any HDL version
    cd HDL_v1
-   extractSSBsig_hdl_tb  % Should complete without errors
+   make hdl-workflow  % Should complete without errors
    ```
 
 #### Verification
@@ -72,12 +72,18 @@ After setup, you should see:
 
 Want to reproduce the core finding? Run this:
 
-```matlab
+```bash
 % Navigate to any HDL version
 cd HDL_v1  % Start with working version
 
-% Run testbench (generates HDL automatically)
-extractSSBsig_hdl_tb
+% Run testbench
+make test-hdl
+
+% Generate HDL and run synthesis
+make hdl-workflow
+
+% Check for successful HDL generation
+ls codegen/extractSSBsig_hdl/hdlsrc/extractSSBsig_hdl.v
 
 % Check for BRAM file (proof of success)
 ls codegen/extractSSBsig_hdl/hdlsrc/SimpleDualPortRAM_generic.v

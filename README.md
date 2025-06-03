@@ -10,7 +10,7 @@
 
 ## 🚀 Quick Start
 
-This repository demonstrates a critical design constraint in MATLAB HDL Coder: **FIFO size directly impacts BRAM mapping success for entire designs**. Through systematic analysis of four SSB signal extraction implementations, we discovered that FIFO sizes ≥16 entries prevent BRAM inference system-wide, causing up to 42× resource overhead.
+This repository demonstrates a critical design constraint in MATLAB HDL Coder: **FIFO size directly impacts BRAM mapping success for entire designs**. Through systematic analysis of four SSB signal extraction implementations, we discovered that FIFO sizes ≥16 entries prevent BRAM inference system-wide, causing up to 128x resource overhead.
 
 ### ⚡ Quick Reference
 
@@ -24,7 +24,7 @@ This repository demonstrates a critical design constraint in MATLAB HDL Coder: *
 
 1. **Problem**: Large FIFOs prevent BRAM mapping for entire designs
 2. **Solution**: Keep FIFO sizes ≤ 4 entries  
-3. **Impact**: 42× resource reduction (22,302 → 527 flip-flops)
+3. **Impact**: 128x resource reduction (67,389 → 527 flip-flops)
 4. **Validation**: Confirmed across 4 implementations with post-synthesis
 
 ### 📦 Installation & Setup
@@ -91,7 +91,7 @@ ls codegen/extractSSBsig_hdl/hdlsrc/SimpleDualPortRAM_generic.v
 
 ### Key Results Summary
 - **🎯 Root Cause**: FIFO size ≥16 entries triggers conservative inference mode
-- **📈 Impact**: 42× resource reduction (22,302 → 527 flip-flops) with proper FIFO sizing
+- **📈 Impact**: 128x resource reduction (67,389 → 527 flip-flops) with proper FIFO sizing
 - **✅ Solution**: Keep FIFO sizes ≤4 entries for reliable BRAM mapping
 - **🔬 Validation**: Confirmed through post-synthesis analysis across 4 implementations
 
@@ -148,7 +148,7 @@ The unexpected BRAM mapping failures led to this comprehensive investigation, re
 - How FIFO sizing affects entire design resource utilization
 - Why larger FIFOs can prevent all BRAM inference (not just FIFO BRAM)
 - Practical design guidelines for reliable BRAM mapping
-- The 42× resource impact of improper FIFO sizing
+- The 128x resource impact of improper FIFO sizing
 
 **Research Community** benefits from:
 - Systematic methodology for memory optimization analysis
@@ -160,7 +160,7 @@ The unexpected BRAM mapping failures led to this comprehensive investigation, re
 
 ### 🔍 Comprehensive Analysis
 - **4 complete implementations** with varying buffer sizes (512, 2048, 4096 samples)
-- **Before/after comparison** showing 42× resource improvement
+- **Before/after comparison** showing 128x resource improvement
 - **Post-synthesis validation** using Xilinx Vivado 2023.2
 - **Resource utilization tracking** from HDL generation to FPGA implementation
 
@@ -189,7 +189,7 @@ The unexpected BRAM mapping failures led to this comprehensive investigation, re
 This repository contains four versions of SSB (Synchronization Signal Block) signal extraction implementations designed for MATLAB HDL Coder synthesis. Through systematic analysis and code fixes, this study reveals that **FIFO size is the critical factor determining BRAM mapping success** in MATLAB HDL Coder.
 
 ### Critical Finding
-Large FIFO sizes (≥16 entries) prevent BRAM inference for ALL buffers in a design, regardless of buffer sizes or data types. Reducing FIFO sizes to ≤2-4 entries enables successful BRAM mapping and reduces resource usage by up to 42×.
+Large FIFO sizes (≥16 entries) prevent BRAM inference for ALL buffers in a design, regardless of buffer sizes or data types. Reducing FIFO sizes to ≤2-4 entries enables successful BRAM mapping and reduces resource usage by up to 128x.
 
 ### Impact Visualization
 
@@ -197,7 +197,7 @@ Large FIFO sizes (≥16 entries) prevent BRAM inference for ALL buffers in a des
 graph LR
     subgraph "FIFO Size Impact"
         A[FIFO: 2 entries] --> B[✅ BRAM Success<br/>527 flip-flops]
-        C[FIFO: 16 entries] --> D[❌ BRAM Failure<br/>22,302 flip-flops]
+        C[FIFO: 16 entries] --> D[❌ BRAM Failure<br/>67,389 flip-flops]
     end
     
     style A fill:#4ecdc4
@@ -270,7 +270,7 @@ extractSSBsig/
 Each successful implementation generates these critical files:
 
 - **`SimpleDualPortRAM_generic.v`**: Proof of BRAM inference success
-- **Resource reports**: Quantified improvement (22,302 → 527 flip-flops)
+- **Resource reports**: Quantified improvement (67,389 → 527 flip-flops)
 - **Timing reports**: Consistent ~186 MHz performance validation
 - **Synthesis logs**: Complete tool flow verification
 
@@ -287,8 +287,8 @@ Each directory contains:
 | Version | Buffer Size | FIFO Size | Flip-Flops | RAMs | Registers | BRAM Status |
 |---------|-------------|-----------|------------|------|-----------|-------------|
 | **HDL_v1** | 512 | 2 | 916 | 2×512×16-bit | 123 | ✅ **SUCCESS** |
-| **HDL_v2** | 2048 | 16 | 22,302 | 0 | 4,195 | ❌ **FAILED** |
-| **HDL_v3** | 2048 | 16 | 22,302 | 0 | 4,195 | ❌ **FAILED** |
+| **HDL_v2** | 2048 | 16 | 67,389 | 0 | 4,195 | ❌ **FAILED** |
+| **HDL_v3** | 2048 | 16 | 67,389 | 0 | 4,195 | ❌ **FAILED** |
 | **HDL_v4** | 512 | 2 | 897 | 2×512×16-bit | 119 | ✅ **SUCCESS** |
 
 #### After Fix (Current Status)
@@ -313,7 +313,7 @@ Each directory contains:
 ```mermaid
 graph TB
     subgraph "Pre-Fix vs Post-Fix Comparison"
-        A[HDL_v2 Before Fix] --> A1[22,302 Flip-Flops]
+        A[HDL_v2 Before Fix] --> A1[67,389 Flip-Flops]
         A --> A2[0 BRAM Tiles]
         A --> A3[4,195 Registers]
         
@@ -343,7 +343,7 @@ xychart-beta
     title "Resource Usage: FIFO Size Impact"
     x-axis ["HDL_v1 (2)", "HDL_v2 (16)", "HDL_v2 (2)", "HDL_v3 (16)", "HDL_v3 (2)", "HDL_v4 (2)"]
     y-axis "Flip-Flops" 0 --> 70000
-    bar [916, 22302, 914, 22302, 527, 897]
+    bar [916, 67389, 914, 67389, 527, 897]
 ```
 
 ### Clock Frequency Analysis
@@ -374,7 +374,7 @@ graph LR
 ```
 
 ### Key Observations:
-- **FIFO size of 16 caused 42× resource overhead** (22,302 vs ~900 flip-flops)
+- **FIFO size of 16 caused 128x resource overhead** (67,389 vs ~900 flip-flops)
 - **FIFO size of 2 enables successful BRAM mapping** for all versions
 - **All versions now generate BRAM** with consistent, efficient resource usage
 - **Clock frequencies**: All versions achieve ~185-186 MHz (target: 250 MHz)
@@ -405,7 +405,7 @@ PEAK_FIFO_SIZE = uint16(16); % 16 entries - CAUSES BRAM MAPPING FAILURE
 | FIFO Size | BRAM Mapping | Resource Impact |
 |-----------|--------------|-----------------|
 | **2 entries** | ✅ Success | Efficient BRAM usage (~900 flip-flops) |
-| **16 entries** | ❌ Failed | Massive register arrays (22,302+ flip-flops) |
+| **16 entries** | ❌ Failed | Massive register arrays (67,389+ flip-flops) |
 
 **Key Finding**: Large FIFO sizes (≥16 entries) prevent HDL Coder from properly inferring BRAM for **all buffers in the design**, not just the FIFO itself.
 
@@ -454,7 +454,7 @@ FIFO_BIT = uint16(1);          % 2^1 = 2
 PEAK_FIFO_SIZE = uint16(2^FIFO_BIT);  % 2 entries - SUCCESS
 ```
 
-**This simple change reduced flip-flop usage from 22,302 to 527 (42× reduction) and enabled BRAM mapping for all buffers.**
+**This simple change reduced flip-flop usage from 67,389 to 527 (128x reduction) and enabled BRAM mapping for all buffers.**
 
 ### System Architecture Overview
 
@@ -476,7 +476,7 @@ graph TB
     
     subgraph "Resource Impact"
         BRAM_SUCCESS --> EFFICIENT[~900 Flip-Flops<br/>BRAM Tiles Used]
-        BRAM_FAIL --> INEFFICIENT[22,302+ Flip-Flops<br/>No BRAM Tiles]
+        BRAM_FAIL --> INEFFICIENT[67,389+ Flip-Flops<br/>No BRAM Tiles]
     end
     
     style FIFO2 fill:#4ecdc4
@@ -542,7 +542,7 @@ flowchart TD
     F --> H[All Buffers → Registers]
     
     G --> I[✅ Efficient Design<br/>~900 Flip-Flops]
-    H --> J[❌ Resource Explosion<br/>22,302+ Flip-Flops]
+    H --> J[❌ Resource Explosion<br/>67,389+ Flip-Flops]
     
     style C fill:#4ecdc4
     style D fill:#ff6b6b
@@ -557,12 +557,12 @@ flowchart TD
 1. **Global Inference Pass**: HDL Coder performs a system-level analysis to determine memory architecture
 2. **FIFO Complexity Threshold**: Large FIFOs (≥16 entries) trigger conservative inference mode
 3. **System-Wide Impact**: Conservative mode disables BRAM inference for ALL buffers in the design
-4. **Resource Explosion**: All buffers become register arrays, causing 42× resource overhead
+4. **Resource Explosion**: All buffers become register arrays, causing 128x resource overhead
 
 **Evidence from Resource Reports:**
 ```
 Small FIFO (2 entries):  527 flip-flops, 2×BRAM, 121 registers
-Large FIFO (16 entries): 22,302 flip-flops, 0×BRAM, 4,195 registers
+Large FIFO (16 entries): 67,389 flip-flops, 0×BRAM, 4,195 registers
 ```
 
 The FIFO size acts as a "design complexity indicator" that influences HDL Coder's global optimization decisions.
@@ -610,8 +610,8 @@ graph TB
 
 **Before Fix - Large FIFO Versions** generated:
 - No BRAM files ❌
-- Massive register arrays (22,302+ flip-flops)
-- 42× resource overhead
+- Massive register arrays (67,389+ flip-flops)
+- 128x resource overhead
 
 ## Best Practices for MATLAB HDL Coder BRAM Mapping
 
@@ -708,7 +708,7 @@ graph LR
     end
     
     subgraph "Impact Assessment"
-        P1 --> I1[42× Resource Reduction]
+        P1 --> I1[128x Resource Reduction]
         P2 --> I2[Optimal BRAM Usage]
         P3 --> I3[Clean Inference]
         P4 --> I4[Better Synthesis]
@@ -812,8 +812,8 @@ gantt
 - **HDL_v4**: 2 entries → **SUCCESS** ✅
 
 **Before Fix:**
-- **HDL_v2**: 16 entries → **FAILED** ❌ (22,302 flip-flops)
-- **HDL_v3**: 16 entries → **FAILED** ❌ (22,302 flip-flops)
+- **HDL_v2**: 16 entries → **FAILED** ❌ (67,389 flip-flops)
+- **HDL_v3**: 16 entries → **FAILED** ❌ (67,389 flip-flops)
 
 ### Buffer Size Analysis - **Not a Factor**
 
@@ -897,7 +897,7 @@ mindmap
     Critical Factor
       FIFO Size ≤ 4 entries
       System-wide Impact
-      42× Resource Difference
+      128x Resource Difference
     
     Not Critical
       Buffer Size
@@ -959,7 +959,7 @@ graph TD
 **Recommended FIFO Size Limits for MATLAB HDL Coder:**
 - **Safe Range**: 2-4 entries
 - **Avoid**: ≥16 entries (causes BRAM mapping failure)
-- **Design Impact**: Large FIFOs can increase resource usage by 42× (22,302 vs 527 flip-flops)
+- **Design Impact**: Large FIFOs can increase resource usage by 128x (67,389 vs 527 flip-flops)
 
 This analysis provides crucial guidance for FPGA designers using MATLAB HDL Coder: **prioritize small FIFO sizes** to ensure successful BRAM inference across the entire design.
 

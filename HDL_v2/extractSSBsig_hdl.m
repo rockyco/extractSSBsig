@@ -34,8 +34,8 @@ PSS_OFFSET = uint16(273); % NFFT + CP_LENGTH - 1
 % Buffer sizes (power of 2)
 BUFFER_BIT = uint16(11); % 2^11 = 2048 > SSB_LENGTH (1096) - Note: needs multiple turns
 RX_BUFFER_SIZE = uint16(2^BUFFER_BIT); % 2048
-FIFO_BIT = uint16(1); % 2^1 = 2
-PEAK_FIFO_SIZE = uint16(2^FIFO_BIT); % 2
+FIFO_BIT = uint16(4); % 2^4 = 16
+PEAK_FIFO_SIZE = uint16(2^FIFO_BIT); % 16
 % OUTPUT_BUFFER_SIZE = uint16(2048);
 
 % Buffer masks for efficient addressing

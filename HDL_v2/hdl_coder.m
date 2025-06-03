@@ -33,8 +33,8 @@ hdlcfg.RegisterOutputs = true; % Register outputs
 
 % BRAM Mapping Configuration (Enhanced)
 hdlcfg.MapPersistentVarsToRAM = true; % Enable RAM mapping for persistent vars
-% hdlcfg.RAMVariableNames = "rxBuffer_re,rxBuffer_im,eventFifo"; % Specify variables as string scalar
-% hdlcfg.RAMThreshold = 32; % Threshold for RAM mapping (min array size)
+hdlcfg.RAMVariableNames = "rxBuffer_re,rxBuffer_im"; % Specify variables as string scalar
+hdlcfg.RAMThreshold = 8; % Threshold for RAM mapping (min array size)
 
 % Entry-point function
 entryPointFunction = 'extractSSBsig_hdl';
